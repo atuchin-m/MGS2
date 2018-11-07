@@ -1,0 +1,103 @@
+<script>
+	// methods for proper functioning of page
+	function sendForm(){
+		getSubmitButtonElem().setAttribute("disabled","disabled");
+  		google.script.run.withFailureHandler(HandleError).withSuccessHandler(handleServerResponse).handleClientForm(getFormData());
+  		document.getElementById("formMessage").innerHTML = ("Отправлено");
+	}
+
+	function getFormData(){
+		//get all data from module
+		// all getters should be in module file
+		/*var FormResponse = {
+    		team: getTeamValue(),
+    		problem: getProblemValue(),
+    		result: getResultValue(),
+    		judge: getJudgeValue(),
+    		version: getVersionValue(),
+    		uptodate: true,
+    		formLink: 0,
+    		comment: " "
+  		};*/
+  		var FormResponse = {
+    		team: 1,
+    		problem: 1,
+    		result: 1,
+    		judge: tester,
+    		version: 1,
+    		uptodate: true,
+    		formLink: 0,
+    		comment: " ",
+    		tableid = " ",
+    		serverResponse = "";
+  		};
+  		return FormResponse;
+	}
+
+	function initPage(){
+		//add some blur\input interceptors
+		//document.getElementById("header").textContent = "Формоцка";
+	}
+
+	function initForm(){
+		//calls model data getters on server
+		//handlers in module_client
+		google.script.run.withFailureHandler(HandleError).withSuccessHandler(
+			OnFormParametersFetched).getFormParameters();
+	}
+
+	function handleLogin(){
+		// all things about autorisation, client-only for now
+		applyJudgeName();
+		//changeView("backform","mainlayer"); // disabled now for comfortable debug
+	}
+
+	function handleServerResponse(JSONresp){
+		//un(boxing)packing response, calling other handlers
+		var resp = JSON.parse(JSONresp);
+		var SuccessMessage = "Записано";
+  		var FailureMessage = "Ошибка заполнения!"
+		//checking for actual teamnames
+		console.log(resp.uptodate);
+  		if(resp.uptodate == false){ 
+    		initForm();
+  		}
+
+  		switch(resp.serverResponse){   // reading serverResponse
+		    case "error":
+		      SuccessMessage = FailureMessage;
+		      break;
+	  	}
+
+  		HandleError(SuccessMessage);      //Log and reset
+		getProblemElem().value = "";
+		document.getElementById("good_radio").checked = false;
+		document.getElementById("bad_radio").checked = false;
+		//writing some numbers
+		pushServerResponse(resp.team,resp.problem,resp.result,resp.serverResponse,resp.formLink);
+	}
+
+	function pushServerResponse(a,b,c,d,e){
+	  //push data to special structure
+	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
+	  $('#logslist').prepend("<li> " + /*TeamNames[a - 1]*/a + " " + b + " " + c +  " " + d + " " + e + " </li>");
+	}
+
+	function changeView(first	,second){
+		//change forms disabled
+		document.getElementById('' + first).setAttribute("hidden","true");
+  		document.getElementById('' + second).removeAttribute("hidden");
+	}
+
+	function handleError(error){
+		//write to special field
+		document.getElementById("formMessage").innerHTML = error;
+  		getSubmitButtonElem().removeAttribute("disabled");
+	}
+
+	function applyJudgeName(){
+		//puts name in disabled field 
+		getJudgeElem().setAttribute("value", document.getElementById('jid').value);
+		initForm();
+	}
+</script>

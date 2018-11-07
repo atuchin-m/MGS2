@@ -1,0 +1,59 @@
+<form сlass="mui-form" id="mainform" onsubmit="sendForm(); return false;" autocomplete="off">
+  
+  <div class="mui-row">
+   	<div class="mui-col-md-4">
+      <div class="mui-textfield">
+        <input id="judgename" value="none" disabled="disabled">    
+        <label>Судья</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="mui-row">
+    <div class="mui-col-md-4">
+      <div class="mui-textfield">
+        <input id="team" type="number" min="1" max="200" autofocus required>
+        <label>Номер команды</label>
+      </div>
+    </div> 
+  </div>
+
+  <div class="mui-row">
+    <div class="mui-col-md-4">
+      <div class="mui-textfield">
+        <input id="problem" type="number" min="1" max="200" placeholder="от 1 до 8" required>
+        <label>Номер задачи</label>
+      </div>
+     </div>
+  </div>
+
+  <div class="mui-row">
+    <div class="mui-radio">
+      <div class="mui-col-md-2">
+        <label>
+          <input name="result_radio" type="radio" id="good_radio" required>  Верно
+        </label>
+      </div>
+
+      <div class="mui-col-md-2">
+        <label>
+          <input name="result_radio" type="radio" id="bad_radio" required>  Неверно
+        </label>
+      </div>
+    </div>
+ 
+   <div class="mui-col-md-8">
+      <label id="formMessage"></label> 
+   </div>
+  </div>
+
+  <div class="mui-row">    
+    <div class="mui-col-md-4">
+      <div align="center">
+        <input type="submit" id="sbmbt" value="Добавить" class="mui-btn mui-btn--primary">
+      </div>
+      <br>
+    </div>
+  </div>
+
+</form>

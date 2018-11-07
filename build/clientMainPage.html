@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <!-- AppsScript file including -->
+    <?!= include('stylelinks'); ?> <!-- + -->
+    <?!= include('stylesheet'); ?>    <!-- + -->
+    <?!= include('clientMainJs'); ?>
+    <?!= include('clientLogger'); ?>
+    <?!= include('clientFormMethods'); ?>
+    <?!= include('module_client'); ?>
+  </head>
+  
+  <body onload="initPage();"> 
+    
+    <!--login "page"-->
+    <div class="headclass">
+        <h1 id="header"></h1>
+
+        <form сlass="mui-form" id="backform" onsubmit="handleLogin(); return false;">
+          <input hidden="true" id="version" value="none">
+          
+          <div class="mui-row">
+            <div class="mui-col-md-4">
+              <div class="mui-textfield">
+                <input type="text" id="jid" autofocus required>
+                <label>Введите имя судьи</label>
+              </div>
+            </div> 
+          </div>
+
+          <div class="mui-row">    
+            <div class="mui-col-md-4">
+              <div align="center">
+                <input type="submit" value="Далее" class="mui-btn mui-btn--primary">
+              </div>
+              <br>
+            </div>
+          </div>
+
+        </form>
+
+    </div>
+    
+    <div id="mainlayer">
+      <div class="mui-container-fluid" align="left">
+        <!--customizable form parts here-->
+        <?!= include('module_form'); ?>
+
+        <!--structure for responses logging-->
+        <div class="mui-row">
+          <div class="mui-col-md-4">
+            <div align="center">
+              <p> Имя | задача | результат | ответ сервера</p>
+              <ol reversed id="logslist">
+              </ol>
+            </div>
+          </div> 
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>

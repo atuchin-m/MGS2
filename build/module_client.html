@@ -1,0 +1,55 @@
+<script>
+	//handlers
+	function OnFormParametersFetched(data){
+	  var parameters = JSON.parse(data);
+	  team = getTeamElem();
+	  team.setAttribute('max', parameters.team);
+	  team.setAttribute('placeholder', "от 1 до " + parameters.team);
+	  getVersionElem().setAttribute("value",parameters.team);
+	  elem.focus();
+	}
+
+
+	//object getters
+	function getTeamElem() {
+		return document.getElementById("team");
+	}
+
+	function getProblemElem() {
+		return document.getElementById("problem");
+	}
+
+	function getJudgeElem() {
+		return document.getElementById("judgename");
+	}
+
+	function getSubmitButtonElem() { 
+		return document.getElementById("sbmbt");
+	} 
+
+	function getVersionElem() { 
+		return document.getElementById("version");
+	}
+	////////////ATTENTION////////////
+	function getResultValue(){
+		// very careful with result getting
+		return document.getElementById('good_radio').checked;
+	}
+	///////////////
+	//value getters
+	function getTeamValue() {
+		return parseInt(getTeamElem().value);
+	}
+
+	function getProblemValue() {
+		return parseInt(getProblemElem().value);
+	}
+
+	function getJudgeValue() {
+		return getJudgeElem().value;
+	}
+
+	function getVersionValue(){
+		return parseInt(getVersionElem().value);
+	}
+</script>
