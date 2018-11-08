@@ -4,19 +4,20 @@
   <head>
     <meta charset="utf-8">
     <!-- AppsScript file including -->
-    <?!= include('stylelinks'); ?> <!-- + -->
-    <?!= include('stylesheet'); ?>    <!-- + -->
-    <?!= include('clientMainJs'); ?>
-    <?!= include('clientLogger'); ?>
-    <?!= include('clientFormMethods'); ?>
-    <?!= include('module_client'); ?>
+    <?!= include('build/stylelinks'); ?> <!-- + -->
+    <?!= include('build/stylesheet'); ?>    <!-- + -->
+    <?!= include('build/clientMainJs'); ?>
+    <?!= include('build/clientFormMethods'); ?>
+    <?!= include('build/module_client'); ?>
   </head>
   
-  <body onload="initPage();"> 
+  <body> 
     
     <!--login "page"-->
     <div class="headclass">
         <h1 id="header"></h1>
+
+        <div class="mui-container-fluid" align="left">
 
         <form сlass="mui-form" id="backform" onsubmit="handleLogin(); return false;">
           <input hidden="true" id="version" value="none">
@@ -41,12 +42,14 @@
 
         </form>
 
+        </div>
+
     </div>
     
     <div id="mainlayer">
       <div class="mui-container-fluid" align="left">
         <!--customizable form parts here-->
-        <?!= include('module_form'); ?>
+        <?!= include('build/module_form'); ?>
 
         <!--structure for responses logging-->
         <div class="mui-row">

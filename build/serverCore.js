@@ -5,7 +5,7 @@ function include(filename) {
 
 function doGet(e) {
   //init of app
-  var html = HtmlService.createTemplateFromFile('clientMainPage').evaluate();
+  var html = HtmlService.createTemplateFromFile('build/clientMainPage').evaluate();
   html.setTitle(FORM_TITLE);                                 
   return html; 
 }

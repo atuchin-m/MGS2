@@ -1,6 +1,7 @@
 <script>
 	// methods for proper functioning of page
-	function sendForm(){
+	function HandleForm(){
+		alert("sendForm");
 		getSubmitButtonElem().setAttribute("disabled","disabled");
   		google.script.run.withFailureHandler(HandleError).withSuccessHandler(handleServerResponse).handleClientForm(getFormData());
   		document.getElementById("formMessage").innerHTML = ("Отправлено");
@@ -28,15 +29,10 @@
     		uptodate: true,
     		formLink: 0,
     		comment: " ",
-    		tableid = " ",
+    		tableid = "1i60nTGNebrNBu83lodRgNGVtXRsyJHCcoQpC0h1Isug",
     		serverResponse = "";
   		};
   		return FormResponse;
-	}
-
-	function initPage(){
-		//add some blur\input interceptors
-		//document.getElementById("header").textContent = "Формоцка";
 	}
 
 	function initForm(){
@@ -53,6 +49,7 @@
 	}
 
 	function handleServerResponse(JSONresp){
+		alert("serverresp");
 		//un(boxing)packing response, calling other handlers
 		var resp = JSON.parse(JSONresp);
 		var SuccessMessage = "Записано";
@@ -90,6 +87,7 @@
 	}
 
 	function handleError(error){
+		alert("error");
 		//write to special field
 		document.getElementById("formMessage").innerHTML = error;
   		getSubmitButtonElem().removeAttribute("disabled");
