@@ -1,6 +1,7 @@
 /// functions for interface list
 //raw
-function view_SaveRawRes(sheet,message){
+function view_SaveRawRes(message){
+  var sheet = GetSheet(RAW,message.tableid);
   //pushes data to the all-messages sheet
   var d = new Date();
   //customization starts 

@@ -57,27 +57,28 @@ function notCollided(team, problem, list){
 }
 
 function handleClientForm(FormResponse){
-  //does smth with data?  checking and calls view methods
   var modelRange = GetSheet(RAW,FormResponse.tableid).getRange(MODEL_X,MODEL_Y);
-  var model_JSON = modelRange.getValue();
-  var model_data = JSON.parse(model_JSON); // correspondence team-problem
+  //JSON because of "Range value can be numeric, string, boolean or date."
+  if(modelRange.isBlank()){
+    modelRange.setValue(JSON.stringify(initModel(FormResponse.tableid)));   
+  }
+  var model_data = JSON.parse(modelRange.getValue()); // correspondence team-problem
 
-  //checking for teamnames changes
-  if(ServerVersion != FormResponse.version){
+  var serverVersion = module_getParams(FormResponse.tableid).team;
+  if(serverVersion != FormResponse.version){
     FormResponse.uptodate = false;
   }
 
   var lock = LockService.getScriptLock();
   lock.waitLock(LOCK_TIMEOUT_MS);
 
-  Logger.log("1",model_data);
   // check for exceeding attempts count
   if(notCollided(FormResponse.team,FormResponse.problem, model_data)){
 
     // run some module checks
 
     // and then write to model
-    model_data[team][problem].push[FormResponse]; 
+    model_data[FormResponse.team][FormResponse.problem].push[FormResponse]; 
     modelRange.setValue(JSON.stringify(model_data));
     
   }else{
@@ -85,14 +86,23 @@ function handleClientForm(FormResponse){
   }
   lock.releaseLock();
 
-  Logger.log("2", model_data);
-
   // then add some human-readable logs
-  FormResponse.formLink = view_SaveRawRes(); 
+  FormResponse.formLink = view_SaveRawRes(FormResponse); 
   // and more useful for teams 
   //...soon.
 
   //then send whole message for logs
   return JSON.stringify(FormResponse);
 
+}
+
+function initModel(id){
+  var arr = [];
+  for(var i = 0;i < module_getParams(id).team;i++){
+    arr.push([]);
+      for(var j = 0;j < module_getParams(id).problem;j++){
+        arr[i].push([]);
+      }
+  }  
+  return arr;
 }

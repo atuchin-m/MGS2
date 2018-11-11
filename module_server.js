@@ -5,7 +5,8 @@
 function module_getParams(id){
 	// config constants for team counter and so on needed
 	var data = {
-		team: 10
+		team: 5,
+		problem: 5
 	};
 	
 	return data;
