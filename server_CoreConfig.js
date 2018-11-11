@@ -1,5 +1,3 @@
-// AL LOT OF SHYTE
-
 //view configs
 
 //model structure configs

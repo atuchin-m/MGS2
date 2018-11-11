@@ -4,13 +4,12 @@
   <head>
     <meta charset="utf-8">
     <!-- AppsScript file including -->
-    <?!= include('build/stylelinks'); ?> <!-- + -->
-    <?!= include('build/stylesheet'); ?>    <!-- + -->
-    <?!= include('build/clientMainJs'); ?>
-    <?!= include('build/clientFormMethods'); ?>
-    <?!= include('build/module_client'); ?>
+    <?!= include('client_Core'); ?>
+    <?!= include('stylelinks'); ?> <!-- + -->
+    <?!= include('stylesheet'); ?>    <!-- + -->
+    <?!= include('client_FormMethods'); ?>
+    <?!= include('module_client'); ?>
   </head>
-  
   <body> 
     
     <!--login "page"-->
@@ -49,7 +48,7 @@
     <div id="mainlayer">
       <div class="mui-container-fluid" align="left">
         <!--customizable form parts here-->
-        <?!= include('build/module_form'); ?>
+        <?!= include('module_form'); ?>
 
         <!--structure for responses logging-->
         <div class="mui-row">

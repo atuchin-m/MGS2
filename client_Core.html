@@ -1,9 +1,43 @@
 <script>
-	// methods for proper functioning of page
-	function HandleForm(){
+	/**
+	 * functions for auth form (backform)
+	 * and for main form init 
+	 */
+
+	function handleLogin(){
+		applyJudgeName();
+		//changeView("backform","mainlayer"); // disabled now for comfortable debug
+	}
+
+	function applyJudgeName(){
+		//puts name in disabled field 
+		getJudgeElem().setAttribute("value", document.getElementById('jid').value);
+		initForm();
+	}
+
+	function initForm(){
+		//calls model data getters on server
+		//handlers in module_client
+		google.script.run.withFailureHandler(handleError).withSuccessHandler(
+			OnFormParametersFetched).getParams();
+	}
+
+	function changeView(first	,second){
+		//change forms disabled
+		document.getElementById('' + first).setAttribute("hidden","true");
+  		document.getElementById('' + second).removeAttribute("hidden");
+	}
+
+
+
+	/**
+	 * functions for communication with server
+	 */
+
+	function sendForm(){
 		alert("sendForm");
 		getSubmitButtonElem().setAttribute("disabled","disabled");
-  		google.script.run.withFailureHandler(HandleError).withSuccessHandler(handleServerResponse).handleClientForm(getFormData());
+  		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(getFormData());
   		document.getElementById("formMessage").innerHTML = ("Отправлено");
 	}
 
@@ -29,23 +63,10 @@
     		uptodate: true,
     		formLink: 0,
     		comment: " ",
-    		tableid = "1i60nTGNebrNBu83lodRgNGVtXRsyJHCcoQpC0h1Isug",
-    		serverResponse = "";
+    		tableid: "1i60nTGNebrNBu83lodRgNGVtXRsyJHCcoQpC0h1Isug",
+    		serverResponse: ""
   		};
   		return FormResponse;
-	}
-
-	function initForm(){
-		//calls model data getters on server
-		//handlers in module_client
-		google.script.run.withFailureHandler(HandleError).withSuccessHandler(
-			OnFormParametersFetched).getFormParameters();
-	}
-
-	function handleLogin(){
-		// all things about autorisation, client-only for now
-		applyJudgeName();
-		//changeView("backform","mainlayer"); // disabled now for comfortable debug
 	}
 
 	function handleServerResponse(JSONresp){
@@ -66,7 +87,7 @@
 		      break;
 	  	}
 
-  		HandleError(SuccessMessage);      //Log and reset
+  		handleError(SuccessMessage);      //Log and reset
 		getProblemElem().value = "";
 		document.getElementById("good_radio").checked = false;
 		document.getElementById("bad_radio").checked = false;
@@ -77,14 +98,15 @@
 	function pushServerResponse(a,b,c,d,e){
 	  //push data to special structure
 	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
-	  $('#logslist').prepend("<li> " + /*TeamNames[a - 1]*/a + " " + b + " " + c +  " " + d + " " + e + " </li>");
+	  // instead of a - TeamNames[a - 1]
+	  $('#logslist').prepend("<li> " + a + " " + b + " " + c +  " " + d + " " + e + " </li>");
 	}
 
-	function changeView(first	,second){
-		//change forms disabled
-		document.getElementById('' + first).setAttribute("hidden","true");
-  		document.getElementById('' + second).removeAttribute("hidden");
-	}
+
+
+	/**
+	 * key functions
+	 */
 
 	function handleError(error){
 		alert("error");
@@ -93,9 +115,4 @@
   		getSubmitButtonElem().removeAttribute("disabled");
 	}
 
-	function applyJudgeName(){
-		//puts name in disabled field 
-		getJudgeElem().setAttribute("value", document.getElementById('jid').value);
-		initForm();
-	}
 </script>

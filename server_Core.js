@@ -1,11 +1,18 @@
-//configurator integrated (no)
+/**
+ *spreadsheet configurator NOT integrated
+ */
+
+/**
+   * key functions
+   */
+
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
 function doGet(e) {
   //init of app
-  var html = HtmlService.createTemplateFromFile('build/clientMainPage').evaluate();
+  var html = HtmlService.createTemplateFromFile('client_Page').evaluate();
   html.setTitle(FORM_TITLE);                                 
   return html; 
 }
@@ -25,16 +32,21 @@ function GetSheet(sheet_name, tableid) {
   return sheet;
 }
 
-function getTeamnames(){
+function getTeamnames(id){
   //exctracts numbers-to-names map for client
-  
-  //return module_getTeamnames(); for special situations
+  return JSON.stringify(module_getTeamnames(id)); 
 }
 
-function getParams(){
+function getParams(id){
   //extracts params from model
-  return module_getParams();
+  return JSON.stringify(module_getParams(id));
 }
+
+
+
+/**
+   * functions for communication with client
+   */
 
 function notCollided(team, problem, list){
   // checks for simular formmessages
