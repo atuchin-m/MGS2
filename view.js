@@ -10,7 +10,8 @@ function view_SaveRawRes(message){
   	message.problem,
   	message.result,
   	message.judge,
-  	d.toLocaleTimeString()
+  	d.toLocaleTimeString(),
+    message.serverResponse
   ];
   //ends
   sheet.appendRow(pack);

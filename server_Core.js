@@ -74,13 +74,13 @@ function handleClientForm(FormResponse){
 
   // check for exceeding attempts count
   if(notCollided(FormResponse.team,FormResponse.problem, model_data)){
-
     // run some module checks
 
     // and then write to model
-    model_data[FormResponse.team][FormResponse.problem].push[FormResponse]; 
+    Logger.log(model_data);
+    model_data[FormResponse.team][FormResponse.problem].push(FormResponse);
+    Logger.log(model_data); 
     modelRange.setValue(JSON.stringify(model_data));
-    
   }else{
     FormResponse.serverResponse = "error";
   }

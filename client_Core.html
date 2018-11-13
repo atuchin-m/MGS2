@@ -58,10 +58,10 @@
     		problem: 1,
     		result: 1,
     		judge: "tester",
-    		version: 1,
+    		version: 5,
     		uptodate: true,
     		formLink: 0,
-    		comment: " ",
+    		comment: "",
     		tableid: "1i60nTGNebrNBu83lodRgNGVtXRsyJHCcoQpC0h1Isug",
     		serverResponse: ""
   		};
@@ -69,7 +69,7 @@
 	}
 
 	function handleServerResponse(JSONresp){
-		alert("serverresp");
+		alert(JSONresp);
 		//un(boxing)packing response, calling other handlers
 		var resp = JSON.parse(JSONresp);
 		var SuccessMessage = "Записано";
