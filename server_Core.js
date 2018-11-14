@@ -42,6 +42,10 @@ function getParams(id){
   return JSON.stringify(module_getParams(id));
 }
 
+function getHeader(){
+  return HEADER;
+}
+
 
 
 /**
@@ -77,9 +81,7 @@ function handleClientForm(FormResponse){
     // run some module checks
 
     // and then write to model
-    Logger.log(model_data);
-    model_data[FormResponse.team][FormResponse.problem].push(FormResponse);
-    Logger.log(model_data); 
+    model_data[FormResponse.team][FormResponse.problem].push(FormResponse); 
     modelRange.setValue(JSON.stringify(model_data));
   }else{
     FormResponse.serverResponse = "error";

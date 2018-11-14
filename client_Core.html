@@ -37,7 +37,7 @@
 	function sendForm(){
 		getSubmitButtonElem().setAttribute("disabled","disabled");
   		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(getFormData());
-  		document.getElementById("formMessage").innerHTML = ("Отправлено");
+  		document.getElementById("formMessage").innerText = ("Отправлено");
 	}
 
 	function getFormData(){
@@ -51,7 +51,9 @@
     		version: getVersionValue(),
     		uptodate: true,
     		formLink: 0,
-    		comment: " "
+    		comment: " ",
+    		tableid: " ",
+    		serverResponse: "  "
   		};*/
   		var FormResponse = {
     		team: 1,
@@ -61,15 +63,15 @@
     		version: 5,
     		uptodate: true,
     		formLink: 0,
-    		comment: "",
+    		comment: "  ",
     		tableid: "1i60nTGNebrNBu83lodRgNGVtXRsyJHCcoQpC0h1Isug",
-    		serverResponse: ""
+    		serverResponse: "  "
   		};
   		return FormResponse;
 	}
 
 	function handleServerResponse(JSONresp){
-		alert(JSONresp);
+		//alert(JSONresp);
 		//un(boxing)packing response, calling other handlers
 		var resp = JSON.parse(JSONresp);
 		var SuccessMessage = "Записано";
@@ -98,7 +100,7 @@
 	  //push data to special structure
 	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
 	  // instead of a - TeamNames[a - 1]
-	  $('#logslist').prepend("<li> " + a + " " + b + " " + c +  " " + d + " " + e + " </li>");
+	  $('#logslist').prepend("<li> " + a + "; " + b + "; " + c +  "; " + d + "; " + e + " </li>");
 	}
 
 
@@ -109,8 +111,15 @@
 
 	function handleError(error){
 		//write to special field
-		document.getElementById("formMessage").innerHTML = error;
+		document.getElementById("formMessage").innerText = error;
   		getSubmitButtonElem().removeAttribute("disabled");
+	}
+
+	function initPage(){
+		google.script.run.withSuccessHandler(setHeader).getHeader();
+	}
+	function setHeader(h){
+		document.getElementById("header").innerText = h;
 	}
 
 </script>
