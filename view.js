@@ -6,12 +6,13 @@ function view_SaveRawRes(message){
   var d = new Date();
   //customization starts 
   var pack = [
+    JSON.stringify(message),
+    message.token,
   	message.team,
   	message.problem,
   	message.result,
   	message.judge,
-  	d.toLocaleTimeString(),
-    message.serverResponse
+  	d.toLocaleTimeString()
   ];
   //ends
   sheet.appendRow(pack);

@@ -54,43 +54,58 @@ function getHeader(){
 
 function notCollided(team, problem, list){
   // checks for simular formmessages
-  if(list[team][problem].length < ATTEMPTS){
+  var attempts = 0;
+  for(cell in list){
+    if(team == JSON.parse(cell).team && problem == JSON.parse(cell).problem){
+      attempts++;
+    }
+  }
+  if(attempts < ATTEMPTS){
     return true;
   }
   return false;
 }
 
 function handleClientForm(FormResponse){
-  var modelRange = GetSheet(RAW,FormResponse.tableid).getRange(MODEL_X,MODEL_Y);
-  //JSON because of "Range value can be numeric, string, boolean or date."
-  if(modelRange.isBlank()){
-    modelRange.setValue(JSON.stringify(initModel(FormResponse.tableid)));   
-  }
-  var model_data = JSON.parse(modelRange.getValue()); // correspondence team-problem
-
-  var serverVersion = module_getParams(FormResponse.tableid).team;
-  if(serverVersion != FormResponse.version){
-    FormResponse.uptodate = false;
-  }
+  var countRange = GetSheet(RAW,FormResponse.tableid).getRange(C_X,C_Y);
+  var modelSize = countRange.getValue();
 
   var lock = LockService.getScriptLock();
   lock.waitLock(LOCK_TIMEOUT_MS);
+
+  if(modelSize > 0){
+    //tokens check
+    var tokens_data = GetSheet(RAW,FormResponse.tableid).getRange(6,2,modelSize).getValues();
+    Logger.log(tokens_data.indexOf([FormResponse.token]));
+    if(tokens_data.indexOf([FormResponse.token]) != -1){
+      FormResponse.serverResponse = "same form exists";
+      lock.releaseLock();
+      return JSON.stringify(FormResponse);
+    }
+
+    var model_data = GetSheet(RAW,FormResponse.tableid).getRange(6,1,modelSize).getValues();
+  }else{
+    var model_data = [];
+  }
 
   // check for exceeding attempts count
   if(notCollided(FormResponse.team,FormResponse.problem, model_data)){
     // run some module checks
 
     // and then write to model
-    model_data[FormResponse.team][FormResponse.problem].push(FormResponse); 
-    modelRange.setValue(JSON.stringify(model_data));
+    FormResponse.formLink = view_SaveRawRes(FormResponse);
+    countRange.setValue(modelSize + 1);
   }else{
     FormResponse.serverResponse = "Error";
   }
   lock.releaseLock();
 
-  // then add some human-readable logs
-  FormResponse.formLink = view_SaveRawRes(FormResponse); 
-  // and more useful for teams 
+  var serverVersion = module_getParams(FormResponse.tableid).team;
+  if(serverVersion != FormResponse.version){
+    FormResponse.uptodate = false;
+  }
+ 
+  // logs  more useful for teams 
   //...soon.
 
   //then send whole message for logs
