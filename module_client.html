@@ -35,8 +35,16 @@
 		return document.getElementById("version");
 	}
 
+	function getIDElem() {
+		return document.getElementById("spreadsheetID");
+	}
 
-	function getResultValue(){
+	function getCommentElem() {
+		return document.getElementById("comment");
+	}
+
+
+	function getResultValue() {
 		// very careful with result getting
 		return document.getElementById('good_radio').checked;
 	}
@@ -57,5 +65,13 @@
 
 	function getVersionValue(){
 		return parseInt(getVersionElem().value);
+	}
+
+	function getIDValue() {
+		return getIDElem().value;
+	}
+
+	function getCommentValue() {
+		return getCommentElem().value;
 	}
 </script>

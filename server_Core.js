@@ -84,7 +84,7 @@ function handleClientForm(FormResponse){
     model_data[FormResponse.team][FormResponse.problem].push(FormResponse); 
     modelRange.setValue(JSON.stringify(model_data));
   }else{
-    FormResponse.serverResponse = "error";
+    FormResponse.serverResponse = "Error";
   }
   lock.releaseLock();
 

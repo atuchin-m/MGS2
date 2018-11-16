@@ -43,7 +43,7 @@
 	function getFormData(){
 		//get all data from module
 		// all getters should be in module file
-		/*var FormResponse = {
+		var FormResponse = {
     		team: getTeamValue(),
     		problem: getProblemValue(),
     		result: getResultValue(),
@@ -51,11 +51,11 @@
     		version: getVersionValue(),
     		uptodate: true,
     		formLink: 0,
-    		comment: " ",
-    		tableid: " ",
-    		serverResponse: "  "
-  		};*/
-  		var FormResponse = {
+    		comment: getCommentValue(),
+    		tableid: getIDValue(),
+    		serverResponse: "Success"
+  		};
+  		/*var FormResponse = {
     		team: 1,
     		problem: 1,
     		result: 1,
@@ -65,8 +65,9 @@
     		formLink: 0,
     		comment: "  ",
     		tableid: "1i60nTGNebrNBu83lodRgNGVtXRsyJHCcoQpC0h1Isug",
-    		serverResponse: "  "
+    		serverResponse: "Success"
   		};
+  		*/
   		return FormResponse;
 	}
 
@@ -83,13 +84,14 @@
   		}
 
   		switch(resp.serverResponse){   // reading serverResponse
-		    case "error":
+		    case "Error":
 		      SuccessMessage = FailureMessage;
 		      break;
 	  	}
 
   		handleError(SuccessMessage);      //Log and reset
 		getProblemElem().value = "";
+		getCommentElem().value = "";
 		document.getElementById("good_radio").checked = false;
 		document.getElementById("bad_radio").checked = false;
 		//writing some numbers
