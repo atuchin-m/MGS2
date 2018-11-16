@@ -98,13 +98,13 @@ function handleClientForm(FormResponse){
 
 }
 
-function initModel(id){
-  var arr = [];
-  for(var i = 0;i < module_getParams(id).team;i++){
-    arr.push([]);
-      for(var j = 0;j < module_getParams(id).problem;j++){
-        arr[i].push([]);
-      }
-  }  
-  return arr;
-}
+// function initModel(id){
+//   var arr = [];
+//   for(var i = 0;i < module_getParams(id).team;i++){
+//     arr.push([]);
+//       for(var j = 0;j < module_getParams(id).problem;j++){
+//         arr[i].push([]);
+//       }
+//   }  
+//   return arr;
+// }

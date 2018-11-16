@@ -13,6 +13,7 @@
 		//puts name in disabled field 
 		getJudgeElem().setAttribute("value", document.getElementById('jid').value);
 		initForm();
+		formToken();
 	}
 
 	function initForm(){
@@ -35,7 +36,7 @@
 	 */
 
 	function sendForm(){
-		getSubmitButtonElem().setAttribute("disabled","disabled");
+		// getSubmitButtonElem().setAttribute("disabled","disabled");
   		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(getFormData());
   		document.getElementById("formMessage").innerText = ("Отправлено");
 	}
@@ -53,7 +54,8 @@
     		formLink: 0,
     		comment: getCommentValue(),
     		tableid: getIDValue(),
-    		serverResponse: "Success"
+    		serverResponse: "Success",
+    		token: document.getElementById("tokenval").value
   		};
   		/*var FormResponse = {
     		team: 1,
@@ -114,14 +116,21 @@
 	function handleError(error){
 		//write to special field
 		document.getElementById("formMessage").innerText = error;
-  		getSubmitButtonElem().removeAttribute("disabled");
+		formToken();
+  		// getSubmitButtonElem().removeAttribute("disabled");
 	}
 
 	function initPage(){
 		google.script.run.withSuccessHandler(setHeader).getHeader();
 	}
+
 	function setHeader(h){
 		document.getElementById("header").innerText = h;
+	}
+
+	function formToken(){
+		var d = new Date();
+		$("#tokenval").val(getJudgeValue() + d.toLocaleTimeString());
 	}
 
 </script>
