@@ -95,7 +95,7 @@ function handleClientForm(FormResponse){
     // run some module checks
 
     // and then write to model
-    FormResponse.formLink = view_SaveRawRes(FormResponse);
+    view_SaveRawRes(FormResponse);
     countRange.setValue(modelSize + 1);
   }else{
     FormResponse.serverResponse = "Error";

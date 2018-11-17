@@ -37,8 +37,11 @@
 
 	function sendForm(){
 		// getSubmitButtonElem().setAttribute("disabled","disabled");
-  		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(getFormData());
-  		document.getElementById("formMessage").innerText = ("Отправлено");
+		var formData = getFormData();
+		formData.formLink = $("li").length;
+		$('#logslist').prepend("<li> Sent... " + formData.formLink + "</li>");
+  		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(formData);
+  		//document.getElementById("formMessage").innerText = ("Отправлено");
 	}
 
 	function getFormData(){
@@ -97,14 +100,19 @@
 		document.getElementById("good_radio").checked = false;
 		document.getElementById("bad_radio").checked = false;
 		//writing some numbers
-		pushServerResponse(resp.team,resp.problem,resp.result,resp.serverResponse,resp.formLink);
+		pushServerResponse(resp.formLink,resp.team,resp.problem,resp.result,resp.serverResponse);
 	}
 
-	function pushServerResponse(a,b,c,d,e){
+	function pushServerResponse(link,a,b,c,d){
 	  //push data to special structure
 	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
 	  // instead of a - TeamNames[a - 1]
-	  $('#logslist').prepend("<li> " + a + "; " + b + "; " + c +  "; " + d + "; " + e + " </li>");
+	  $("#logslist li").filter(function(){
+	  	//alert("A" + $(this).text());
+	  	//alert("A" + " Sent..." + link);
+    	return $(this).text() == (" Sent... " + link);
+  	  }).text() = " " + a + "; " + b + "; " + c +  "; " + d + " ";
+	  //$('#logslist').prepend("<li> " + a + "; " + b + "; " + c +  "; " + d + "; " + e + " </li>");
 	}
 
 

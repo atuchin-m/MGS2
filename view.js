@@ -16,5 +16,5 @@ function view_SaveRawRes(message){
   ];
   //ends
   sheet.appendRow(pack);
-  return sheet.getLastRow(); ///integer, but not Range object
+  //return sheet.getLastRow(); ///integer, but not Range object
 }
