@@ -56,7 +56,7 @@ function notCollided(team, problem, list){
   // checks for simular formmessages
   var attempts = 0;
   for(cell in list){
-    if(team == JSON.parse(cell).team && problem == JSON.parse(cell).problem){
+    if(team == JSON.parse(cell[0]).team && problem == JSON.parse(cell[0]).problem){
       attempts++;
     }
   }
@@ -76,13 +76,15 @@ function handleClientForm(FormResponse){
   if(modelSize > 0){
     //tokens check
     var tokens_data = GetSheet(RAW,FormResponse.tableid).getRange(6,2,modelSize).getValues();
-    Logger.log(tokens_data.indexOf([FormResponse.token]));
-    if(tokens_data.indexOf([FormResponse.token]) != -1){
-      FormResponse.serverResponse = "same form exists";
-      lock.releaseLock();
-      return JSON.stringify(FormResponse);
+    Logger.log(tokens_data);
+    for(i in tokens_data){
+      if(tokens_data[i][0] == FormResponse.token){
+        Logger.log(FormResponse.token);
+        FormResponse.serverResponse = "same form exists";
+        lock.releaseLock();
+        return JSON.stringify(FormResponse);
+      }
     }
-
     var model_data = GetSheet(RAW,FormResponse.tableid).getRange(6,1,modelSize).getValues();
   }else{
     var model_data = [];
