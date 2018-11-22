@@ -59,7 +59,7 @@ function handleClientForm(FormResponse){
   var modelSheet = GetSheet(RAW,FormResponse.tableid);
   var countRange = modelSheet.getRange(C_X,C_Y);
   var modelSize = countRange.getValue();
-  
+
   //tokens stuff
   if(modelSize > 0){
     var tokensData = modelSheet.getRange(MODEL_START,2,modelSize).getValues();
@@ -123,7 +123,8 @@ function SaveRes(message){
     message.problem,
     message.result,
     message.judge,
-    d.toLocaleTimeString()
+    d.toLocaleTimeString(),
+    message.comment
   ];
   //ends
   sheet.appendRow(pack);

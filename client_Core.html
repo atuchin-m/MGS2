@@ -41,7 +41,6 @@
 		formData.formLink = $("li").length;
 		$('#logslist').prepend("<li id='log" + formData.formLink + "'> Отправлено " + "</li>");
   		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(formData);
-  		//document.getElementById("formMessage").innerText = ("Отправлено");
 	}
 
 	function getFormData(){
@@ -70,6 +69,7 @@
     		initForm();
   		}
   		resetInput();
+  		formToken();
 		pushServerResponse(resp.formLink,resp.team,resp.problem,resp.result,resp.serverResponse);
 	}
 
