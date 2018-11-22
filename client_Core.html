@@ -66,19 +66,18 @@
 	function handleServerResponse(JSONresp){
 		//alert(JSONresp);
 		var resp = JSON.parse(JSONresp);
-
-		//checking for actual teamnames
-		console.log(resp.uptodate);
   		if(resp.uptodate == false){ 
     		initForm();
   		}
+  		resetInput();
+		pushServerResponse(resp.formLink,resp.team,resp.problem,resp.result,resp.serverResponse);
+	}
 
-  		//Log and reset
+	function resetInput(){
 		getProblemElem().value = "";
 		getCommentElem().value = "";
 		document.getElementById("good_radio").checked = false;
 		document.getElementById("bad_radio").checked = false;
-		pushServerResponse(resp.formLink,resp.team,resp.problem,resp.result,resp.serverResponse);
 	}
 
 	function pushServerResponse(link,a,b,c,d){
