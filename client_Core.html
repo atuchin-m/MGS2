@@ -39,7 +39,7 @@
 		// getSubmitButtonElem().setAttribute("disabled","disabled");
 		var formData = getFormData();
 		formData.formLink = $("li").length;
-		$('#logslist').prepend("<li> Sent... " + formData.formLink + "</li>");
+		$('#logslist').prepend("<li id='log" + formData.formLink + "'> Отправлено " + "</li>");
   		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(formData);
   		//document.getElementById("formMessage").innerText = ("Отправлено");
 	}
@@ -107,11 +107,13 @@
 	  //push data to special structure
 	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
 	  // instead of a - TeamNames[a - 1]
-	  $("#logslist li").filter(function(){
+
+	  document.getElementById("log"+link).innerText = a + "; " + b + "; " + c +  "; " + d + " ";
+	  //$("#logslist li").filter(function(){
 	  	//alert("A" + $(this).text());
 	  	//alert("A" + " Sent..." + link);
-    	return $(this).text() == (" Sent... " + link);
-  	  }).text() = " " + a + "; " + b + "; " + c +  "; " + d + " ";
+    	//return $(this).text() == (" Sent... " + link);
+  	  //}).text() = " " + a + "; " + b + "; " + c +  "; " + d + " ";
 	  //$('#logslist').prepend("<li> " + a + "; " + b + "; " + c +  "; " + d + "; " + e + " </li>");
 	}
 
