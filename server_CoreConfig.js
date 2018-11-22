@@ -6,6 +6,8 @@ var VIEW = "FACE";
 var MAIN = "MAIN";
 var JD = "JUDGIES";
 
+var MODEL_START = 5;
+
 var MODEL_X = 1;
 var MODEL_Y = 6;
 
