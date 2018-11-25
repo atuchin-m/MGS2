@@ -20,7 +20,7 @@
 		//calls model data getters on server
 		//handlers in module_client
 		google.script.run.withFailureHandler(handleError).withSuccessHandler(
-			OnFormParametersFetched).getParams();
+			OnFormParametersFetched).getParams(getIDValue());
 	}
 
 	function changeView(first	,second){

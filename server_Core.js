@@ -53,16 +53,15 @@ function getHeader(){
    */
 
 function handleClientForm(FormResponse){
-  
   var lock = LockService.getScriptLock();
   lock.waitLock(LOCK_TIMEOUT_MS);
-  var modelSheet = GetSheet(RAW,FormResponse.tableid);
-  var countRange = modelSheet.getRange(C_X,C_Y);
+  var modelSheet = GetSheet(RAW, FormResponse.tableid);
+  var countRange = modelSheet.getRange(C_X, C_Y);
   var modelSize = countRange.getValue();
 
   //tokens stuff
   if(modelSize > 0){
-    var tokensData = modelSheet.getRange(MODEL_START,2,modelSize).getValues();
+    var tokensData = modelSheet.getRange(MODEL_START, 2, modelSize).getValues();
     for(i in tokensData){
       if(tokensData[i][0] == FormResponse.token){
         FormResponse.serverResponse = "same token exists";
@@ -70,13 +69,13 @@ function handleClientForm(FormResponse){
         return JSON.stringify(FormResponse);
       }
     }
-    var modelData = modelSheet.getRange(MODEL_START,1,modelSize).getValues();
+    var modelData = modelSheet.getRange(MODEL_START, 1, modelSize).getValues();
   }else{
     var modelData = [];
   }
 
   // check for exceeding attempts count
-  if(notCollided(FormResponse.team,FormResponse.problem, modelData)){
+  if(notCollided(FormResponse.team, FormResponse.problem, modelData)){
     // run some module checks
     SaveRes(FormResponse);
     countRange.setValue(modelSize + 1);
@@ -92,6 +91,7 @@ function handleClientForm(FormResponse){
   }
  
   // view refresh
+  view_refreshTeamView(FormResponse.team, modelData, module_getParams(FormResponse.tableid).problem);
 
   return JSON.stringify(FormResponse);
 }
@@ -112,7 +112,7 @@ function notCollided(team, problem, list){
 }
 
 function SaveRes(message){
-  var sheet = GetSheet(RAW,message.tableid);
+  var sheet = GetSheet(RAW, message.tableid);
   //pushes data to the model sheet
   var d = new Date();
   //customization starts 
@@ -128,5 +128,4 @@ function SaveRes(message){
   ];
   //ends
   sheet.appendRow(pack);
-  //return sheet.getLastRow(); ///integer, but not Range object
 }

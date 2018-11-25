@@ -3,15 +3,22 @@
  */
  
 function module_getParams(id){
-	// config constants for team counter and so on needed
+	// no consants, all should be here
+	var dataSheet = GetSheet(RAW,id);
 	var data = {
-		team: 5,
-		problem: 5
+		team: dataSheet.getRange(1, 2).getValue(),
+		problem: dataSheet.getRange(2, 2).getValue()
 	};
 	
 	return data;
 }
 
 function module_getTeamnames(id){
-	// parse table
+	var maxTeams = module_getParams(id).team;
+	var teamArray = GetSheet(TEAMS, id).getRange(1, 1, maxTeams).getValues();
+	for(i in teamArray){
+		repacked_teamArray.push(teamArray[i][0]);
+	}
+	Logger.log(repacked_teamArray);
+	return repacked_teamArray;
 }
