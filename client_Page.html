@@ -19,6 +19,7 @@
 
     <form сlass="mui-form" id="backform" onsubmit="handleLogin(); return false;">
       <input hidden="true" id="version" value="none">
+      <input hidden="true" id="tokenval" value="none">
       
       <div class="mui-row">
         <div class="mui-col-md-4">
@@ -51,7 +52,7 @@
         <div class="mui-row">
           <div class="mui-col-md-4">
             <div align="center">
-              <p> Имя; задача; результат; ответ сервера; № запроса</p>
+              <p> Имя; задача; результат; ответ сервера</p>
               <ol reversed id="logslist">
               </ol>
             </div>

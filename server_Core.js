@@ -52,59 +52,81 @@ function getHeader(){
    * functions for communication with client
    */
 
-function notCollided(team, problem, list){
-  // checks for simular formmessages
-  if(list[team][problem].length < ATTEMPTS){
-    return true;
-  }
-  return false;
-}
-
 function handleClientForm(FormResponse){
-  var modelRange = GetSheet(RAW,FormResponse.tableid).getRange(MODEL_X,MODEL_Y);
-  //JSON because of "Range value can be numeric, string, boolean or date."
-  if(modelRange.isBlank()){
-    modelRange.setValue(JSON.stringify(initModel(FormResponse.tableid)));   
+  
+  var lock = LockService.getScriptLock();
+  lock.waitLock(LOCK_TIMEOUT_MS);
+  var modelSheet = GetSheet(RAW,FormResponse.tableid);
+  var countRange = modelSheet.getRange(C_X,C_Y);
+  var modelSize = countRange.getValue();
+
+  //tokens stuff
+  if(modelSize > 0){
+    var tokensData = modelSheet.getRange(MODEL_START,2,modelSize).getValues();
+    for(i in tokensData){
+      if(tokensData[i][0] == FormResponse.token){
+        FormResponse.serverResponse = "same token exists";
+        lock.releaseLock();
+        return JSON.stringify(FormResponse);
+      }
+    }
+    var modelData = modelSheet.getRange(MODEL_START,1,modelSize).getValues();
+  }else{
+    var modelData = [];
   }
-  var model_data = JSON.parse(modelRange.getValue()); // correspondence team-problem
+
+  // check for exceeding attempts count
+  if(notCollided(FormResponse.team,FormResponse.problem, modelData)){
+    // run some module checks
+    SaveRes(FormResponse);
+    countRange.setValue(modelSize + 1);
+  }else{
+    FormResponse.serverResponse = "same modeldata exists";
+  }
+
+  lock.releaseLock();
 
   var serverVersion = module_getParams(FormResponse.tableid).team;
   if(serverVersion != FormResponse.version){
     FormResponse.uptodate = false;
   }
+ 
+  // view refresh
 
-  var lock = LockService.getScriptLock();
-  lock.waitLock(LOCK_TIMEOUT_MS);
-
-  // check for exceeding attempts count
-  if(notCollided(FormResponse.team,FormResponse.problem, model_data)){
-    // run some module checks
-
-    // and then write to model
-    model_data[FormResponse.team][FormResponse.problem].push(FormResponse); 
-    modelRange.setValue(JSON.stringify(model_data));
-  }else{
-    FormResponse.serverResponse = "Error";
-  }
-  lock.releaseLock();
-
-  // then add some human-readable logs
-  FormResponse.formLink = view_SaveRawRes(FormResponse); 
-  // and more useful for teams 
-  //...soon.
-
-  //then send whole message for logs
   return JSON.stringify(FormResponse);
-
 }
 
-function initModel(id){
-  var arr = [];
-  for(var i = 0;i < module_getParams(id).team;i++){
-    arr.push([]);
-      for(var j = 0;j < module_getParams(id).problem;j++){
-        arr[i].push([]);
-      }
-  }  
-  return arr;
+function notCollided(team, problem, list){
+  // checks for simular formmessages
+  var attempts = 0;
+  for(cell in list){
+    var item = JSON.parse(list[cell][0]);
+    if(team == item.team && problem == item.problem){
+      attempts++;
+    }
+  }
+  if(attempts < ATTEMPTS){
+    return true;
+  }
+  return false;
+}
+
+function SaveRes(message){
+  var sheet = GetSheet(RAW,message.tableid);
+  //pushes data to the model sheet
+  var d = new Date();
+  //customization starts 
+  var pack = [
+    JSON.stringify(message),
+    message.token,
+    message.team,
+    message.problem,
+    message.result,
+    message.judge,
+    d.toLocaleTimeString(),
+    message.comment
+  ];
+  //ends
+  sheet.appendRow(pack);
+  //return sheet.getLastRow(); ///integer, but not Range object
 }

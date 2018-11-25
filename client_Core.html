@@ -13,6 +13,7 @@
 		//puts name in disabled field 
 		getJudgeElem().setAttribute("value", document.getElementById('jid').value);
 		initForm();
+		formToken();
 	}
 
 	function initForm(){
@@ -35,9 +36,11 @@
 	 */
 
 	function sendForm(){
-		getSubmitButtonElem().setAttribute("disabled","disabled");
-  		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(getFormData());
-  		document.getElementById("formMessage").innerText = ("Отправлено");
+		// getSubmitButtonElem().setAttribute("disabled","disabled");
+		var formData = getFormData();
+		formData.formLink = $("li").length;
+		$('#logslist').prepend("<li id='log" + formData.formLink + "'> Отправлено " + "</li>");
+  		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(formData);
 	}
 
 	function getFormData(){
@@ -52,57 +55,36 @@
     		uptodate: true,
     		formLink: 0,
     		comment: getCommentValue(),
-    		tableid: getIDValue(),
-    		serverResponse: "Success"
+    		tableid: getIDValue(), //заглушка с константным id
+    		serverResponse: "success",
+    		token: document.getElementById("tokenval").value
   		};
-  		/*var FormResponse = {
-    		team: 1,
-    		problem: 1,
-    		result: 1,
-    		judge: "tester",
-    		version: 5,
-    		uptodate: true,
-    		formLink: 0,
-    		comment: "  ",
-    		tableid: "1i60nTGNebrNBu83lodRgNGVtXRsyJHCcoQpC0h1Isug",
-    		serverResponse: "Success"
-  		};
-  		*/
   		return FormResponse;
 	}
 
 	function handleServerResponse(JSONresp){
 		//alert(JSONresp);
-		//un(boxing)packing response, calling other handlers
 		var resp = JSON.parse(JSONresp);
-		var SuccessMessage = "Записано";
-  		var FailureMessage = "Ошибка заполнения!"
-		//checking for actual teamnames
-		console.log(resp.uptodate);
   		if(resp.uptodate == false){ 
     		initForm();
   		}
+  		resetInput();
+  		formToken();
+		pushServerResponse(resp.formLink,resp.team,resp.problem,resp.result,resp.serverResponse);
+	}
 
-  		switch(resp.serverResponse){   // reading serverResponse
-		    case "Error":
-		      SuccessMessage = FailureMessage;
-		      break;
-	  	}
-
-  		handleError(SuccessMessage);      //Log and reset
+	function resetInput(){
 		getProblemElem().value = "";
 		getCommentElem().value = "";
 		document.getElementById("good_radio").checked = false;
 		document.getElementById("bad_radio").checked = false;
-		//writing some numbers
-		pushServerResponse(resp.team,resp.problem,resp.result,resp.serverResponse,resp.formLink);
 	}
 
-	function pushServerResponse(a,b,c,d,e){
+	function pushServerResponse(link,a,b,c,d){
 	  //push data to special structure
 	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
 	  // instead of a - TeamNames[a - 1]
-	  $('#logslist').prepend("<li> " + a + "; " + b + "; " + c +  "; " + d + "; " + e + " </li>");
+	  document.getElementById("log"+link).innerText = a + "; " + b + "; " + c +  "; " + d + " ";
 	}
 
 
@@ -114,14 +96,21 @@
 	function handleError(error){
 		//write to special field
 		document.getElementById("formMessage").innerText = error;
-  		getSubmitButtonElem().removeAttribute("disabled");
+		formToken();
+  		// getSubmitButtonElem().removeAttribute("disabled");
 	}
 
 	function initPage(){
 		google.script.run.withSuccessHandler(setHeader).getHeader();
 	}
+
 	function setHeader(h){
 		document.getElementById("header").innerText = h;
+	}
+
+	function formToken(){
+		var d = new Date();
+		$("#tokenval").val(getJudgeValue() + d.toLocaleTimeString());
 	}
 
 </script>
