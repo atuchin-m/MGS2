@@ -23,11 +23,12 @@
 			OnTeamNamesFetched).getTeamnames(getIDValue());
 		google.script.run.withFailureHandler(handleError).withSuccessHandler(
 			OnFormParametersFetched).getParams(getIDValue());
+		initElement();
+		getTeamElem().focus();
 	}
 
 	function OnTeamNamesFetched(data){
-		sessionStorage.setItem("teamnames", JSON.parse(data));
-		alert(sessionStorage.getItem("teamnames"));
+		sessionStorage.setItem("teamnames", data);
 	}
 
 	function changeView(first	,second){
@@ -91,7 +92,9 @@
 	  //push data to special structure
 	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
 	  // instead of a - TeamNames[a - 1]
-	  document.getElementById("log"+link).innerText = a + "; " + b + "; " + c +  "; " + d + " ";
+	  var teamnames = JSON.parse(sessionStorage.getItem("teamnames"));
+	  document.getElementById("log"+link).innerText = teamnames[a-1] + 
+	  	" (" +  a + ") " + "; " + b + "; " + c +  "; " + d + " ";
 	}
 
 
@@ -118,6 +121,10 @@
 	function formToken(){
 		var d = new Date();
 		$("#tokenval").val(getJudgeValue() + d.toLocaleTimeString());
+	}
+
+	function sleep(ms) {
+  		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
 </script>
