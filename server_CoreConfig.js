@@ -7,11 +7,19 @@ var VIEW = "VIEW";
 var TEAMS = "TEAMS";
 var JD = "JUDGIES";
 
+var NORMAL_FONT = "#000000";
+var RED_FONT = "#ff4500";
+var GREEN_FONT = "#008000";
+var FONTS = ["#ff4500", "#008000"];
+var SYMBOLS = ["-","+"]
+
 var C_X = 3;  // counter cell
 var C_Y = 6;
 
 //others
 var FORM_TITLE = "MGS";
 var LOCK_TIMEOUT_MS = 4000; // 4 second
-var ATTEMPTS = 1;
+var ATTEMPTS = 3;
+var VIEW_START_X = 2;
+var VIEW_START_Y = 3;
 var HEADER = "Форма для устной";

@@ -78,6 +78,7 @@ function handleClientForm(FormResponse){
   if(notCollided(FormResponse.team, FormResponse.problem, modelData)){
     // run some module checks
     SaveRes(FormResponse);
+    modelData.push([JSON.stringify(FormResponse)]);
     countRange.setValue(modelSize + 1);
   }else{
     FormResponse.serverResponse = "same modeldata exists";
@@ -85,13 +86,13 @@ function handleClientForm(FormResponse){
 
   lock.releaseLock();
 
+  view_refreshTeamView(FormResponse.team, modelData,
+     module_getParams(FormResponse.tableid).problem, GetSheet(VIEW, FormResponse.tableid));
+
   var serverVersion = module_getParams(FormResponse.tableid).team;
   if(serverVersion != FormResponse.version){
     FormResponse.uptodate = false;
   }
- 
-  // view refresh
-  view_refreshTeamView(FormResponse.team, modelData, module_getParams(FormResponse.tableid).problem);
 
   return JSON.stringify(FormResponse);
 }
@@ -100,9 +101,13 @@ function notCollided(team, problem, list){
   // checks for simular formmessages
   var attempts = 0;
   for(cell in list){
-    var item = JSON.parse(list[cell][0]);
-    if(team == item.team && problem == item.problem){
-      attempts++;
+    try{
+      var item = JSON.parse(list[cell][0]);
+      if(team == item.team && problem == item.problem){
+        attempts++;
+      }
+    }catch(err){
+      continue;
     }
   }
   if(attempts < ATTEMPTS){
