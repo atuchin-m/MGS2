@@ -20,7 +20,14 @@
 		//calls model data getters on server
 		//handlers in module_client
 		google.script.run.withFailureHandler(handleError).withSuccessHandler(
+			OnTeamNamesFetched).getTeamnames(getIDValue());
+		google.script.run.withFailureHandler(handleError).withSuccessHandler(
 			OnFormParametersFetched).getParams(getIDValue());
+	}
+
+	function OnTeamNamesFetched(data){
+		sessionStorage.setItem("teamnames", JSON.parse(data));
+		alert(sessionStorage.getItem("teamnames"));
 	}
 
 	function changeView(first	,second){

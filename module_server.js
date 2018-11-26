@@ -14,6 +14,7 @@ function module_getParams(id){
 }
 
 function module_getTeamnames(id){
+	var repacked_teamArray = [];
 	var maxTeams = module_getParams(id).team;
 	var teamArray = GetSheet(TEAMS, id).getRange(1, 1, maxTeams).getValues();
 	for(i in teamArray){
