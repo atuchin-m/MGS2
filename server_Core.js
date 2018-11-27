@@ -64,7 +64,7 @@ function handleClientForm(FormResponse){
     var tokensData = modelSheet.getRange(MODEL_START, 2, modelSize).getValues();
     for(i in tokensData){
       if(tokensData[i][0] == FormResponse.token){
-        FormResponse.serverResponse = "same token exists";
+        FormResponse.serverResponse = "Копия предыдущей формы";
         lock.releaseLock();
         return JSON.stringify(FormResponse);
       }
@@ -81,7 +81,7 @@ function handleClientForm(FormResponse){
     modelData.push([JSON.stringify(FormResponse)]);
     countRange.setValue(modelSize + 1);
   }else{
-    FormResponse.serverResponse = "same modeldata exists";
+    FormResponse.serverResponse = "Задачу больше нельзя сдавать";
   }
 
   lock.releaseLock();
