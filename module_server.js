@@ -23,3 +23,25 @@ function module_getTeamnames(id){
 	Logger.log(repacked_teamArray);
 	return repacked_teamArray;
 }
+
+function GetHumanReadableCaption(value) {
+  if (value[0] == "+")
+    return "Уже сдана (" + value + ")";
+	Logger.log(value);
+  switch(value) {
+  	case -1:
+  		return "Была 1 попытка";
+  	case -2:
+  		return "Были 2 попытки";
+  	case -3:
+  		return "Были 3 попытки";
+  	default:
+  		return "Не сдавалась ранее";	
+  }
+}
+
+function getTeamResults(team, problem, id){
+  var face = GetSheet(VIEW, id);
+  var faceCell = face.getRange(VIEW_START_X + team, VIEW_START_Y - 1 + problem);
+  return GetHumanReadableCaption(faceCell.getValue());
+}

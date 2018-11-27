@@ -4,7 +4,7 @@
 		// Set handler for team number change
 		getTeamElem().onblur = onTeamNumberChanged;
 		// Set handler for problem number change
-		//getProblemElem().oninput = onProblemNumberChanged;
+		getProblemElem().oninput = onProblemNumberChanged;
 
 	}
 
@@ -16,15 +16,16 @@
 		}
 	}
 
-	// function onProblemNumberChanged(){
-	//   team = getTeamValue();
-	//   problem = getProblemValue();
-	//   //console.log(team, problem);
+	function onProblemNumberChanged(){
+	  team = getTeamValue();
+	  problem = getProblemValue();
+	  id = getIDValue();
+	  //console.log(team, problem);
 	  
-	//   google.script.run.withSuccessHandler(OnTeamResultsFetched).getTeamResults(team, problem);
-	// }
+	  google.script.run.withSuccessHandler(OnTeamResultsFetched).getTeamResults(team, problem,id);
+	}
 
-	// function OnTeamResultsFetched(problem_result /* string */) {
-	//   document.getElementById('current_problem_results').innerHTML = problem_result;
-	// }
+	function OnTeamResultsFetched(problem_result /* string */) {
+	  document.getElementById('current_problem_results').innerText = problem_result;
+	}
 </script>

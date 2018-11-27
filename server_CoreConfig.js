@@ -19,7 +19,7 @@ var C_Y = 6;
 //others
 var FORM_TITLE = "MGS";
 var LOCK_TIMEOUT_MS = 4000; // 4 second
-var ATTEMPTS = 3;
+var ATTEMPTS = 3;	
 var VIEW_START_X = 2;
 var VIEW_START_Y = 3;
 var HEADER = "Форма для устной";
