@@ -143,9 +143,13 @@ function deleteForm(token, link, id){
   for(i in modelData){
     try{
       var item = JSON.parse(modelData[i][0]);
+      var team = item.team;
       if(item.token == token){
         modelData[i][0] = "";
+        view_refreshTeamView(team, modelData,
+          module_getParams(id).problem, GetSheet(VIEW, id));
         modelRange.setValues(modelData);
+
         return link;
       }
     } catch(err){

@@ -20,8 +20,8 @@ function view_refreshTeamView(team, modelData, maxProblem, viewSheet){
 	}
 	/// exctraction from 2017 script FACE algo
 	for(i in attemptsArray){
+		var curRange = viewSheet.getRange(VIEW_START_X + team, VIEW_START_Y + parseInt(i));
 		if(attemptsArray[i][1] > 0){
-			var curRange = viewSheet.getRange(VIEW_START_X + team, VIEW_START_Y + parseInt(i));
 			value = String(attemptsArray[i][1] - attemptsArray[i][0]);
 			if(value == "0"){
 				value = "";
@@ -29,6 +29,8 @@ function view_refreshTeamView(team, modelData, maxProblem, viewSheet){
 			curRange.setValue(SYMBOLS[attemptsArray[i][0]] + value);
 			curRange.setFontColor(FONTS[attemptsArray[i][0]]);
 			curRange.setHorizontalAlignment("center");	
+		}else{
+			curRange.setValue("");
 		}
 	}
 }
