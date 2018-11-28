@@ -134,3 +134,23 @@ function SaveRes(message){
   //ends
   sheet.appendRow(pack);
 }
+
+function deleteForm(token, link, id){
+  var modelSheet = GetSheet(RAW,id);
+  var modelSize = modelSheet.getRange(C_X, C_Y).getValue();
+  var modelRange = modelSheet.getRange(MODEL_START, 1, modelSize);
+  var modelData = modelRange.getValues();
+  for(i in modelData){
+    try{
+      var item = JSON.parse(modelData[i][0]);
+      if(item.token == token){
+        modelData[i][0] = "";
+        modelRange.setValues(modelData);
+        return link;
+      }
+    } catch(err){
+      continue;
+    }
+  }
+  throw "Не удалено";
+}

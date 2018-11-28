@@ -15,7 +15,7 @@
     <!--login "page"-->
     <div class="mui-container-fluid" align="left">
 
-    <h1 id="header" class="headclass"></h1>
+    <h1 id="header" class="headclass">Загрузка...</h1>
 
     <form сlass="mui-form" id="backform" onsubmit="handleLogin(); return false;" autocomplete="off">
       <input hidden="true" id="version" value="none">
@@ -43,7 +43,7 @@
 
     </div>
     
-    <div id="mainlayer">
+    <div id="mainlayer" hidden="true">
       <div class="mui-container-fluid" align="left">
         <!--customizable form parts here-->
         <?!= include('module_form'); ?>
@@ -52,7 +52,7 @@
         <div class="mui-row">
           <div class="mui-col-md-4">
             <div align="center">
-              <p> Имя; задача; результат; ответ сервера</p>
+              <p> Имя; задача; результат; статус; ссылка на удаление</p>
               <ol reversed id="logslist">
               </ol>
             </div>
