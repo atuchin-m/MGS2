@@ -54,24 +54,21 @@ function getHeader(){
 
 function handleClientForm(FormResponse){
   var lock = LockService.getScriptLock();
-  lock.waitLock(LOCK_TIMEOUT_MS);
   var modelSheet = GetSheet(RAW, FormResponse.tableid);
-  var countRange = modelSheet.getRange(C_X, C_Y);
-  var modelSize = countRange.getValue();
+
+  // we will choose size really bigger than actual and then wait for lock
+  // because of very slow getlastrow
+  var modelSize = modelSheet.getLastRow() - MODEL_START  + CONST_MORE_THAN_JUDGIES; 
+  lock.waitLock(LOCK_TIMEOUT_MS);
 
   //tokens stuff
-  if(modelSize > 0){
-    var tokensData = modelSheet.getRange(MODEL_START, 2, modelSize).getValues();
-    for(i in tokensData){
-      if(tokensData[i][0] == FormResponse.token){
-        FormResponse.serverResponse = "Копия предыдущей формы";
-        lock.releaseLock();
-        return JSON.stringify(FormResponse);
-      }
+  var modelData = modelSheet.getRange(MODEL_START, 1, modelSize, 2).getValues();
+  for(i in modelData){
+    if(modelData[i][1] == FormResponse.token){
+      FormResponse.serverResponse = "Копия предыдущей формы";
+      lock.releaseLock();
+      return JSON.stringify(FormResponse);
     }
-    var modelData = modelSheet.getRange(MODEL_START, 1, modelSize).getValues();
-  }else{
-    var modelData = [];
   }
 
   // check for exceeding attempts count
@@ -79,11 +76,9 @@ function handleClientForm(FormResponse){
     // run some module checks
     SaveRes(FormResponse);
     modelData.push([JSON.stringify(FormResponse)]);
-    countRange.setValue(modelSize + 1);
   }else{
     FormResponse.serverResponse = "Задачу больше нельзя сдавать";
   }
-
   lock.releaseLock();
 
   view_refreshTeamView(FormResponse.team, modelData,
@@ -137,7 +132,10 @@ function SaveRes(message){
 
 function deleteForm(token, link, id){
   var modelSheet = GetSheet(RAW,id);
-  var modelSize = modelSheet.getRange(C_X, C_Y).getValue();
+  var lock = LockService.getScriptLock();
+  lock.waitLock(LOCK_TIMEOUT_MS);
+
+  var modelSize = modelSheet.getLastRow() - MODEL_START  + 2;
   var modelRange = modelSheet.getRange(MODEL_START, 1, modelSize);
   var modelData = modelRange.getValues();
   for(i in modelData){
@@ -149,12 +147,13 @@ function deleteForm(token, link, id){
         view_refreshTeamView(team, modelData,
           module_getParams(id).problem, GetSheet(VIEW, id));
         modelRange.setValues(modelData);
-
+        lock.releaseLock();
         return link;
       }
     } catch(err){
       continue;
     }
   }
+  lock.releaseLock();
   throw "Не удалено";
 }

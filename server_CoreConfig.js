@@ -6,6 +6,7 @@ var RAW = "RAW";
 var VIEW = "VIEW";
 var TEAMS = "TEAMS";
 var JD = "JUDGIES";
+var CONST_MORE_THAN_JUDGIES = 50;
 
 var NORMAL_FONT = "#000000";
 var RED_FONT = "#ff4500";
