@@ -6,6 +6,8 @@
 
 	function handleLogin(){
 		applyJudgeName();
+		getSubmitButtonElem().value = "Загрузка...";
+		getSubmitButtonElem().setAttribute("disabled","disabled");
 		google.script.run.withFailureHandler(handleError).withSuccessHandler(OnJudgeResultsFetched).fetchJudgeResults(getIDValue());
 		changeView("backform","mainlayer"); // disabled now for comfortable debug
 	}
@@ -47,6 +49,8 @@
 				continue;
 			}
 		}
+		getSubmitButtonElem().value = "Добавить";
+		getSubmitButtonElem().removeAttribute("disabled");
 	}
 
 	function changeView(first	,second){
@@ -114,7 +118,7 @@
 	  // instead of a - TeamNames[a - 1]
 	  var teamnames = JSON.parse(sessionStorage.getItem("teamnames"));
 	  document.getElementById("log" + link).innerHTML = teamnames[a-1] + 
-	  	" (" +  a + ") " + "; " + b + "; " + c +  "; " + d + "; " +
+	  	" (" +  a + ") " + "; " + b + "; " + c +  "; " + d + "; " + 
 	  	"<a id='del" + link + "'> Удалить </a>";
 	  document.getElementById("del" + link).onclick =  function () { var res = confirm('Подтведите удаление'); handleDelete(res, token,link); };
 
