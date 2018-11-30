@@ -48,6 +48,8 @@
 		var formData = getFormData();
 		formData.formLink = $("li").length;
 		$('#logslist').prepend("<li id='log" + formData.formLink + "'> Отправлено " + "</li>");
+		getSubmitButtonElem().setAttribute("disabled","disabled");
+		getSubmitButtonElem().value = "Отправлено";
   		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(formData);
 	}
 
@@ -77,7 +79,7 @@
     		initForm();
   		}
   		resetInput();
-  		formToken();
+  		handleError("Записано");
 		pushServerResponse(resp.formLink,resp.team,resp.problem,resp.result,resp.serverResponse,resp.token);
 	}
 
@@ -107,8 +109,8 @@
 	}
 
 	function deleteSuccess(link){
-		document.getElementById("del"+link).innerText = "Удалено";
-		document.getElementById("del"+link).onclick = null;
+		document.getElementById("del" + link).innerText = "Удалено";
+		document.getElementById("del" + link).onclick = null;
 	}
 
 
@@ -120,6 +122,8 @@
 		//write to special field
 		document.getElementById("formMessage").innerText = error;
 		formToken();
+		getSubmitButtonElem().value = "Добавить";
+		getSubmitButtonElem().removeAttribute("disabled");
   		// getSubmitButtonElem().removeAttribute("disabled");
 	}
 
