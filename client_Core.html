@@ -6,6 +6,7 @@
 
 	function handleLogin(){
 		applyJudgeName();
+		google.script.run.withFailureHandler(handleError).withSuccessHandler(OnJudgeResultsFetched).fetchJudgeResults(getIDValue());
 		changeView("backform","mainlayer"); // disabled now for comfortable debug
 	}
 
@@ -29,6 +30,23 @@
 
 	function OnTeamNamesFetched(data){
 		sessionStorage.setItem("teamnames", data);
+	}
+
+	function OnJudgeResultsFetched(data){
+		var judge = getJudgeValue();
+		var counter = 0;
+		for(i in data){
+			try{
+				var curForm  = JSON.parse(data[i][0]);
+				if(curForm.judge == judge){
+					$('#logslist').prepend("<li id='log" + counter + "'> Загрузка... " + "</li>");
+					pushServerResponse(counter,curForm.team,curForm.problem,curForm.result,curForm.serverResponse,curForm.token);
+					counter++;
+				}
+			}catch(err){
+				continue;
+			}
+		}
 	}
 
 	function changeView(first	,second){

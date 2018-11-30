@@ -24,6 +24,12 @@ function module_getTeamnames(id){
 	return repacked_teamArray;
 }
 
+function fetchJudgeResults(id){
+  var modelSheet = GetSheet(RAW,id);
+  var modelSize = modelSheet.getLastRow() - MODEL_START  + CONST_MORE_THAN_JUDGIES;
+  return modelSheet.getRange(MODEL_START, 1, modelSize, 2).getValues();
+}
+
 function GetHumanReadableCaption(value) {
   if (value[0] == "+")
     return "Уже сдана (" + value + ")";
