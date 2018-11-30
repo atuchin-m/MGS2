@@ -5,6 +5,7 @@
 	function OnFormParametersFetched(data){
 	  var parameters = JSON.parse(data);
 	  getTeamElem().setAttribute('max', parameters.team);
+	  getProblemElem().setAttribute('max', parameters.problem);
 	  getTeamElem().setAttribute('placeholder', "от 1 до " + parameters.team);
 	  getProblemElem().setAttribute('placeholder', "от 1 до " + parameters.problem);
 	  getVersionElem().setAttribute("value",parameters.team);

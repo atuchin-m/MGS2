@@ -4,7 +4,7 @@
 function view_refreshTeamView(team, modelData, maxProblem, viewSheet){
 	var attemptsArray = [];
 	var value = "";
-	var lastForm = 0, successCounter = 0;
+	var lastForm=  0, successCounter = 0;
 	for(var i = 0; i < maxProblem; i++){
 		attemptsArray[i] = [0, 0]; // first is 0 or 1, and second - number of forms
 	}
