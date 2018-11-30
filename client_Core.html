@@ -42,7 +42,7 @@
 				var curForm  = JSON.parse(data[i][0]);
 				if(curForm.judge == judge){
 					$('#logslist').prepend("<li id='log" + counter + "'> Загрузка... " + "</li>");
-					pushServerResponse(counter,curForm.team,curForm.problem,curForm.result,curForm.serverResponse,curForm.token);
+					pushServerResponse(counter,curForm.team,curForm.problem,curForm.result,curForm.time,curForm.serverResponse,curForm.token);
 					counter++;
 				}
 			}catch(err){
@@ -79,7 +79,7 @@
 		//get all data from module
 		// all getters should be in module file
 		var FormResponse = {
-    		team: getTeamValue(),
+    		team: Math.trunc(getTeamValue()/10),
     		problem: getProblemValue(),
     		result: getResultValue(),
     		judge: getJudgeValue(),
@@ -89,7 +89,8 @@
     		comment: getCommentValue(),
     		tableid: getIDValue(), //заглушка с константным id
     		serverResponse: "Записано",
-    		token: document.getElementById("tokenval").value
+    		token: document.getElementById("tokenval").value,
+    		time : ""
   		};
   		return FormResponse;
 	}
@@ -102,7 +103,7 @@
   		}
   		resetInput();
   		handleError("Записано");
-		pushServerResponse(resp.formLink,resp.team,resp.problem,resp.result,resp.serverResponse,resp.token);
+		pushServerResponse(resp.formLink,resp.team,resp.problem,resp.result,resp.time,resp.serverResponse,resp.token);
 	}
 
 	function resetInput(){
@@ -112,13 +113,13 @@
 		document.getElementById("bad_radio").checked = false;
 	}
 
-	function pushServerResponse(link,a,b,c,d,token){
+	function pushServerResponse(link,a,b,c,d,e,token){
 	  //push data to special structure
 	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
 	  // instead of a - TeamNames[a - 1]
 	  var teamnames = JSON.parse(sessionStorage.getItem("teamnames"));
 	  document.getElementById("log" + link).innerHTML = teamnames[a-1] + 
-	  	" (" +  a + ") " + "; " + b + "; " + c +  "; " + d + "; " + 
+	  	" (" +  a + ") " + "; " + b + "; " + c +  "; " + d + "; " + e + "; " + 
 	  	"<a id='del" + link + "'> Удалить </a>";
 	  document.getElementById("del" + link).onclick =  function () { var res = confirm('Подтведите удаление'); handleDelete(res, token,link); };
 

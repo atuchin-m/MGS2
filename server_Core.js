@@ -85,6 +85,8 @@ function handleClientForm(FormResponse){
   if (checkResult == kCanAdd)
   {
     // run some module checks
+    var d = new Date();
+    FormResponse.time = d.toLocaleTimeString();
     SaveRes(FormResponse);
     modelData.push([JSON.stringify(FormResponse)]);
   } else {
@@ -127,8 +129,6 @@ function canMarkAttempt(team, problem, result, list){
 
 function SaveRes(message){
   var sheet = GetSheet(RAW, message.tableid);
-  //pushes data to the model sheet
-  var d = new Date();
   //customization starts 
   var pack = [
     JSON.stringify(message),
@@ -137,7 +137,7 @@ function SaveRes(message){
     message.problem,
     message.result,
     message.judge,
-    d.toLocaleTimeString(),
+    message.time,
     message.comment
   ];
   //ends
