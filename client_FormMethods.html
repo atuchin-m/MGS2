@@ -10,9 +10,16 @@
 
 	function onTeamNumberChanged(){
 		var team = getTeamValue();
-		var teamnames = JSON.parse(sessionStorage.getItem("teamnames"));
-		if(team > 0 && team < (getVersionValue() + 1) ){
-			document.getElementById('current_team_name').innerText = teamnames[team-1];	
+		var sum = team % 10;
+		if( (Math.trunc(team/1000) + Math.trunc(team/100) + Math.trunc(team/10) + 7) % 10  == sum){
+			var teamnames = JSON.parse(sessionStorage.getItem("teamnames"));
+			if(team > 0 && team < (getVersionValue() + 1) ){
+				document.getElementById('current_team_name').innerText = teamnames[ parseInt(team/10) -1];	
+			}
+			getSubmitButtonElem().removeAttribute("disabled");
+		}else{
+			getSubmitButtonElem().setAttribute("disabled","disabled");
+			document.getElementById('current_team_name').innerText = "Неправильный номер";
 		}
 	}
 
