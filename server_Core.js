@@ -6,6 +6,10 @@
    * key functions
    */
 
+var kCanAdd = "Успешно добавлено";
+var kAlreadyAccepted = "Ошибка: задача уже зачтена";
+var kLimitExceeded = "Ошибка: кол-во попыток превышено";
+
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
@@ -77,12 +81,14 @@ function handleClientForm(FormResponse){
   }
 
   // check for exceeding attempts count
-  if(notCollided(FormResponse.team, FormResponse.problem, modelData)){
+  var checkResult = canMarkAttempt(FormResponse.team, FormResponse.problem, FormResponse.result, modelData);
+  if (checkResult == kCanAdd)
+  {
     // run some module checks
     SaveRes(FormResponse);
     modelData.push([JSON.stringify(FormResponse)]);
-  }else{
-    FormResponse.serverResponse = "Задачу больше нельзя сдавать";
+  } else {
+    FormResponse.serverResponse = checkResult;
   }
   lock.releaseLock();
 
@@ -97,23 +103,26 @@ function handleClientForm(FormResponse){
   return JSON.stringify(FormResponse);
 }
 
-function notCollided(team, problem, list){
+// Checks if we could add the attempt {team, problem, result} to the |list|.
+function canMarkAttempt(team, problem, result, list){
   // checks for simular formmessages
   var attempts = 0;
   for(cell in list){
     try{
       var item = JSON.parse(list[cell][0]);
       if(team == item.team && problem == item.problem){
+        if (item.result)
+          return kAlreadyAccepted;
         attempts++;
       }
     }catch(err){
       continue;
     }
   }
-  if(attempts < ATTEMPTS){
-    return true;
+  if(attempts >= ATTEMPTS){
+    return kLimitExceeded;
   }
-  return false;
+  return kCanAdd;
 }
 
 function SaveRes(message){
