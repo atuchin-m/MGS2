@@ -2,7 +2,7 @@
 	//helps to avoid already wrong sends
 	function initElement(){
 		// Set handler for team number change
-		getTeamElem().onblur = onTeamNumberChanged;
+		getTeamElem().oninput = onTeamNumberChanged;
 		// Set handler for problem number change
 		getProblemElem().oninput = onProblemNumberChanged;
 
