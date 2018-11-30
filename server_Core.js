@@ -59,7 +59,12 @@ function handleClientForm(FormResponse){
   // we will choose size really bigger than actual and then wait for lock
   // because of very slow getlastrow
   var modelSize = modelSheet.getLastRow() - MODEL_START  + CONST_MORE_THAN_JUDGIES; 
-  lock.waitLock(LOCK_TIMEOUT_MS);
+  try {
+    lock.waitLock(LOCK_TIMEOUT_MS);
+  } catch(err){
+    FormResponse.serverResponse = "Превышено время ожидания";
+    return JSON.stringify(FormResponse);
+  }
 
   //tokens stuff
   var modelData = modelSheet.getRange(MODEL_START, 1, modelSize, 2).getValues();
