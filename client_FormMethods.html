@@ -28,4 +28,15 @@
 	function OnTeamResultsFetched(problem_result /* string */) {
 	  document.getElementById('current_problem_results').innerText = problem_result;
 	}
+	function switchCommentFieldVisibility() {
+        button = document.getElementById('comment_button');
+        div = document.getElementById('comment_div');
+        if (div.hidden) {
+            div.hidden = false;
+            button.value = 'Скрыть коммент.';
+        } else {
+            div.hidden = true;
+            button.value = 'Показать коммент.';
+        }
+    }
 </script>
