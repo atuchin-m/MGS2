@@ -173,11 +173,11 @@
 
 	function disableSubmitElem(string){
 		getSubmitButtonElem().setAttribute("disabled","disabled");
-		document.getElementById('current_team_name').value = string;
+		getSubmitButtonElem().value = string;
 	}
 
 	function enableSubmitElem(){
 		getSubmitButtonElem().removeAttribute("disabled");
-		document.getElementById('current_team_name').value = "Добавить";	
+		getSubmitButtonElem().value = "Добавить";	
 	}
 </script>
