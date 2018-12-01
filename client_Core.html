@@ -1,4 +1,5 @@
 <script>
+
 	/**
 	 * functions for auth form (backform)
 	 * and for main form init 
@@ -53,6 +54,7 @@
 
 	function changeView(first	,second){
 		//change forms disabled
+		console.log(first + " " + second);
 		document.getElementById('' + first).setAttribute("hidden","true");
   		document.getElementById('' + second).removeAttribute("hidden");
 	}
@@ -86,6 +88,7 @@
     		comment: getCommentValue(),
     		tableid: getIDValue(), //заглушка с константным id
     		serverResponse: "Записано",
+    		isExtrasNeeded: false,
     		token: document.getElementById("tokenval").value,
     		time : ""
   		};
@@ -97,6 +100,9 @@
 		var resp = JSON.parse(JSONresp);
   		if(resp.uptodate == false){ 
     		initForm();
+  		}
+  		if(resp.isExtrasNeeded == true){
+  			changeView("mainlayer", "CustomAlert");
   		}
   		resetInput();
   		handleError("Записано");
@@ -112,8 +118,6 @@
 
 	function pushServerResponse(link,a,b,c,d,e,token){
 	  //push data to special structure
-	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
-	  // instead of a - TeamNames[a - 1]
       if(e == "Записано"){
         var delstr = "<a id='del" + link + "'> Удалить </a>";
       }else{

@@ -94,7 +94,7 @@ function handleClientForm(FormResponse){
   }
   lock.releaseLock();
 
-  view_refreshTeamView(FormResponse.team, modelData,
+  FormResponse.isExtrasNeeded = view_refreshTeamView(FormResponse.team, modelData,
      module_getParams(FormResponse.tableid).problem, GetSheet(VIEW, FormResponse.tableid));
 
   var serverVersion = module_getParams(FormResponse.tableid).team;
