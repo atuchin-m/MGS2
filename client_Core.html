@@ -149,6 +149,9 @@
 
 	function handleError(error){
 		//write to special field
+		if(error == "Записано"){
+			error = "Обработано";
+		}
 		document.getElementById("formMessage").innerText = error;
 		formToken();
 		enableSubmitElem();
