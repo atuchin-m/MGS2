@@ -10,31 +10,28 @@
 
 	function onTeamNumberChanged(){
 		var team = getTeamValue();
+		var realTeam = Math.trunc(team/10);
 		var sum = team % 10;
 		if( (Math.trunc(team/1000) + Math.trunc(team/100) + Math.trunc(team/10) + 7) % 10  == sum){
 			var teamnames = JSON.parse(sessionStorage.getItem("teamnames"));
-			if(team > 0 && team < (getVersionValue() + 1) ){
-				document.getElementById('current_team_name').innerText = teamnames[ Math.trunc(team/10) -1];	
+			if(realTeam > 0 && realTeam < (getVersionValue() + 1) ){
+				document.getElementById('current_team_name').innerText = teamnames[ realTeam - 1];	
 			}
-			getSubmitButtonElem().removeAttribute("disabled");
+			enableSubmitElem();
 		}else{
-			getSubmitButtonElem().setAttribute("disabled","disabled");
-			document.getElementById('current_team_name').innerText = "Неправильный номер";
+			disableSubmitElem("Неправильный номер");
 		}
 	}
 
 	function onProblemNumberChanged(){
 	  team = Math.trunc(getTeamValue()/10);
-	  problem = getProblemValue();
-	  id = getIDValue();
-	  //console.log(team, problem);
-	  
-	  google.script.run.withSuccessHandler(OnTeamResultsFetched).getTeamResults(team, problem,id);
+	  google.script.run.withSuccessHandler(OnTeamResultsFetched).getTeamResults(team, getProblemValue(), getIDValue());
 	}
 
 	function OnTeamResultsFetched(problem_result /* string */) {
 	  document.getElementById('current_problem_results').innerText = problem_result;
 	}
+
 	function switchCommentFieldVisibility() {
         button = document.getElementById('comment_button');
         div = document.getElementById('comment_div');

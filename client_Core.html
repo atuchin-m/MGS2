@@ -6,8 +6,7 @@
 
 	function handleLogin(){
 		applyJudgeName();
-		getSubmitButtonElem().value = "Загрузка...";
-		getSubmitButtonElem().setAttribute("disabled","disabled");
+		disableSubmitElem("Загрузка...")
 		google.script.run.withFailureHandler(handleError).withSuccessHandler(OnJudgeResultsFetched).fetchJudgeResults(getIDValue());
 		changeView("backform","mainlayer"); // disabled now for comfortable debug
 	}
@@ -49,8 +48,7 @@
 				continue;
 			}
 		}
-		getSubmitButtonElem().value = "Добавить";
-		getSubmitButtonElem().removeAttribute("disabled");
+		enableSubmitElem();
 	}
 
 	function changeView(first	,second){
@@ -70,8 +68,7 @@
 		var formData = getFormData();
 		formData.formLink = $("li").length;
 		$('#logslist').prepend("<li id='log" + formData.formLink + "'> Отправлено " + "</li>");
-		getSubmitButtonElem().setAttribute("disabled","disabled");
-		getSubmitButtonElem().value = "Отправлено";
+		disableSubmitElem("Отправлено");
   		google.script.run.withFailureHandler(handleError).withSuccessHandler(handleServerResponse).handleClientForm(formData);
 	}
 
@@ -137,7 +134,7 @@
 	}
 
 	function deleteSuccess(link){
-		document.getElementById("del" + link).innerText = "Удалено";
+		document.getElementById("del" + link).innerText = "УДАЛЕНО";
 		document.getElementById("del" + link).onclick = null;
 	}
 
@@ -150,9 +147,7 @@
 		//write to special field
 		document.getElementById("formMessage").innerText = error;
 		formToken();
-		getSubmitButtonElem().value = "Добавить";
-		getSubmitButtonElem().removeAttribute("disabled");
-  		// getSubmitButtonElem().removeAttribute("disabled");
+		enableSubmitElem();
 	}
 
 	function initPage(){
@@ -172,4 +167,13 @@
   		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
+	function disableSubmitElem(string){
+		getSubmitButtonElem().setAttribute("disabled","disabled");
+		document.getElementById('current_team_name').value = string;
+	}
+
+	function enableSubmitElem(){
+		getSubmitButtonElem().removeAttribute("disabled");
+		document.getElementById('current_team_name').value = "Добавить";	
+	}
 </script>
