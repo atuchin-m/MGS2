@@ -14,7 +14,7 @@
 		if( (Math.trunc(team/1000) + Math.trunc(team/100) + Math.trunc(team/10) + 7) % 10  == sum){
 			var teamnames = JSON.parse(sessionStorage.getItem("teamnames"));
 			if(team > 0 && team < (getVersionValue() + 1) ){
-				document.getElementById('current_team_name').innerText = teamnames[ parseInt(team/10) -1];	
+				document.getElementById('current_team_name').innerText = teamnames[ Math.trunc(team/10) -1];	
 			}
 			getSubmitButtonElem().removeAttribute("disabled");
 		}else{
@@ -24,7 +24,7 @@
 	}
 
 	function onProblemNumberChanged(){
-	  team = getTeamValue();
+	  team = Math.trunc(getTeamValue()/10);
 	  problem = getProblemValue();
 	  id = getIDValue();
 	  //console.log(team, problem);

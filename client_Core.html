@@ -117,10 +117,15 @@
 	  //push data to special structure
 	  //var TeamNames = JSON.parse(sessionStorage.getItem("myKey"));
 	  // instead of a - TeamNames[a - 1]
+      if(e == "Записано"){
+        var delstr = "<a id='del" + link + "'> Удалить </a>";
+      }else{
+        var delstr = "";
+      }
 	  var teamnames = JSON.parse(sessionStorage.getItem("teamnames"));
 	  document.getElementById("log" + link).innerHTML = teamnames[a-1] + 
 	  	" (" +  a + ") " + "; " + b + "; " + c +  "; " + d + "; " + e + "; " + 
-	  	"<a id='del" + link + "'> Удалить </a>";
+	  	delstr;
 	  document.getElementById("del" + link).onclick =  function () { var res = confirm('Подтведите удаление'); handleDelete(res, token,link); };
 
 	}
