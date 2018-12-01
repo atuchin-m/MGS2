@@ -39,7 +39,7 @@ function view_refreshTeamView(team, modelData, maxProblem, viewSheet){
 		}
 	}
 	var d = new Date();
-	if(successCounter == EXTRAS_BORDER){
+	if(successCounter == EXTRAS_BORDER && viewSheet.getRange(VIEW_START_X + team, VIEW_START_Y + maxProblem).isBlank() ){
 		viewSheet.getRange(VIEW_START_X + team, VIEW_START_Y + maxProblem).setValue(d.toLocaleTimeString());
 		return true;
 	}
