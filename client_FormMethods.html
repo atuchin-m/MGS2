@@ -26,6 +26,10 @@
 
 	function onProblemNumberChanged(){
 	  team = Math.trunc(getTeamValue()/10);
+	  if(isNaN(getProblemValue())){
+	  	document.getElementById('current_problem_results').innerText = "";
+	  	return;		
+	  }
 	  google.script.run.withSuccessHandler(OnTeamResultsFetched).getTeamResults(team, getProblemValue(), getIDValue());
 	}
 
