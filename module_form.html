@@ -1,7 +1,7 @@
-<a href="https://goo.gl/6MXBC5" target="_blank">Лист участника</a>
-<a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQOY3OWZmA065hdCapAXKaCGa_s5PZZGIz_6kNTOLE4oB8zZzXktpVpHb7LJzrgrKEXjDNS9B2CG75K/pubhtml?gid=940596466&single=true" target="_blank">Протокол</a>
+<a id="student_list_link" href="<?=student_list_link?>" target="_blank">Лист участника</a>
+<a id="protocol_link" href="<?=protocol_link?>" target="_blank">Протокол</a>
 <form сlass="mui-form" id="mainform" onsubmit="sendForm(); return false;" autocomplete="off">
-  <input hidden="true" id="spreadsheetID" value="1i60nTGNebrNBu83lodRgNGVtXRsyJHCcoQpC0h1Isug">
+  <input hidden="true" id="spreadsheetID" value="<?=spreadsheetID?>">
 
   <div class="mui-row">
    	<div class="mui-col-md-4">
@@ -74,7 +74,7 @@
     </div>
     <div class="mui-col-md-2">
       <div align="center">
-        <input type="button" id="comment_button" value="Показать коммент." class="mui-btn mui-btn--primary" onclick="switchCommentFieldVisibility()">
+        <input type="button" id="comment_button" value="Добавить коммент." class="mui-btn mui-btn--primary" onclick="switchCommentFieldVisibility()">
       </div>
       <br>
     </div>

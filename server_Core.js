@@ -9,16 +9,44 @@
 var kCanAdd = "Успешно добавлено";
 var kAlreadyAccepted = "Ошибка: задача уже зачтена";
 var kLimitExceeded = "Ошибка: кол-во попыток превышено";
+var spreadsheetID = ""
+var protocol_link = ""
+var student_list_link = ""
 
+function addParamsAndEval(t) {
+  t.spreadsheetID = spreadsheetID;
+  t.protocol_link = protocol_link;
+  t.student_list_link = student_list_link;
+  return t.evaluate();
+}
 function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+  t = HtmlService.createTemplateFromFile(filename);
+  return addParamsAndEval(t).getContent();
 }
 
 function doGet(e) {
   //init of app
-  var html = HtmlService.createTemplateFromFile('client_Page').evaluate();
-  html.setTitle(FORM_TITLE);                                 
-  return html; 
+  spreadsheetID = ""
+  var t = HtmlService.createTemplateFromFile('client_Page');
+  if (e.parameter.class == "6") {
+    spreadsheetID = "1-W8BkGYfN_80Dh1W1PBMYGaBE38d34rnPgiKeuGfkE0";
+    protocol_link = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQM1HyVDQLwKEMIvxzVc-QFD2vMrvDXkCvT7lYxQKpUWtlQsi2HZsvOaQhGF7TMnYRrkBkdV_gcJCax/pubhtml?gid=940596466&single=true";
+    student_list_link = "https://script.google.com/macros/s/AKfycbzZimQIpJ1Sf_lyDqe6dAmawOItLuIXD1MmAaE-QzXTfQqKwTR8KGQkoEQcwsZ0mtf8pg/exec"
+  }
+  if (e.parameter.class == "7") {
+    spreadsheetID = "13EU4M3F6mpXXFgZDQ-2iuaVnPnFBuvqktnVN3ZdERBs"
+    protocol_link = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHC-xlVanKW-3isXzr1rvoShtucV4rphzwERs0PkHrMeQu1iSe3OvN9dunrxT2K1EYzwPsKhF7NvrR/pubhtml?gid=940596466&single=true"
+    student_list_link = "https://script.google.com/macros/s/AKfycbzXl-Ywy_GT3TdI-1rDvDyT3xo3UMOYiGZq5vsipkXcbPFzAcoArkAEK1i5B5GbOKKjQQ/exec"
+  }
+  if (e.parameter.class == "8") {
+    spreadsheetID = "1h4IgGG9N_K0xLpGgcCI5EVpdZLZQs7lLdQpiJxZms2c"
+    protocol_link = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdxaklGFpZUp54PARzHe9DkaXKe_3JyrgRXrwGP6YCgtDORJQ4G8Gc7OLn57kGDDsfsHImU8HkQwS1/pubhtml?gid=940596466&single=true"
+    student_list_link = "https://script.google.com/macros/s/AKfycbzYUK2QcPcWz4SOX_nB5heSuDdcET1OOizuO2cgAsMD3MmRPR3wc-xZHdGPszeqcWM/exec"
+  }
+
+  html = addParamsAndEval(t);
+  html.setTitle(FORM_TITLE);
+  return html;
 }
 
 function GetSheet(sheet_name, tableid) {
